@@ -59,6 +59,15 @@ mod tests {
     }
 
     #[test]
+    fn european_parrot_speed_with_one_coconut() {
+        let parrot = Parrot { parrot_type: "european_parrot",
+                              number_of_coconuts: 1,
+                              voltage: 0.0,
+                              nailed: false };
+        assert_eq!(parrot.speed().unwrap(), 12.0);
+    }
+
+    #[test]
     fn african_parrot_speed_with_one_coconut() {
         let parrot = Parrot { parrot_type: "african_parrot",
                               number_of_coconuts: 1,
