@@ -1,3 +1,6 @@
+const LOAD_FACTOR: f32 = 9.0;
+const BASE_SPEED: f32 = 12.0;
+
 struct Parrot<'a> {
     parrot_type: &'a str,
     number_of_coconuts: usize,
@@ -8,9 +11,9 @@ struct Parrot<'a> {
 impl<'a> Parrot<'a> {
     pub fn speed(&self) -> Result<f32, &'static str> {
         match self.parrot_type {
-            "european_parrot" => Ok(base_speed()),
+            "european_parrot" => Ok(BASE_SPEED),
             "african_parrot" => {
-                let african_speed = base_speed() - load_factor() * self.number_of_coconuts as f32;
+                let african_speed = BASE_SPEED - LOAD_FACTOR * self.number_of_coconuts as f32;
                 if african_speed > 0.0 { Ok(african_speed) } else { Ok(0.0)}
             }
             "norwegian_blue_parrot" => {
@@ -28,21 +31,13 @@ impl<'a> Parrot<'a> {
 
 fn compute_base_speed_for_voltage(voltage: f32) -> f32 {
     let fixed_base_speed = 24.0;
-    let base_speed_for_voltage = voltage * base_speed();
+    let base_speed_for_voltage = voltage * BASE_SPEED;
     if base_speed_for_voltage < fixed_base_speed {
         base_speed_for_voltage
     }
     else {
         fixed_base_speed
     }
-}
-
-fn load_factor() -> f32 {
-    9.0
-}
-
-fn base_speed() -> f32 {
-    12.0
 }
 
 #[cfg(test)]
