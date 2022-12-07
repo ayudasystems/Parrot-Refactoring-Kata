@@ -9,7 +9,10 @@ class ParrotType(Enum):  # If it is not available, just remove it.
 
 class Parrot:
 
-    def __init__(self, type_of_parrot, number_of_coconuts, voltage, nailed):
+    LOAD_FACTOR = 9.0
+    BASE_SPEED = 12.0
+
+    def __init__(self, type_of_parrot: ParrotType, number_of_coconuts: int, voltage: int, nailed: bool):
         self._type = type_of_parrot
         self._number_of_coconuts = number_of_coconuts
         self._voltage = voltage
@@ -17,9 +20,9 @@ class Parrot:
 
     def speed(self):
         if self._type == ParrotType.EUROPEAN:
-            return self._base_speed()
+            return self.BASE_SPEED
         if self._type == ParrotType.AFRICAN:
-            return max(0, self._base_speed() - self._load_factor() * self._number_of_coconuts)
+            return max(0, self.BASE_SPEED - self.LOAD_FACTOR * self._number_of_coconuts)
         if self._type == ParrotType.NORWEGIAN_BLUE:
             if self._nailed:
                 return 0
@@ -29,10 +32,5 @@ class Parrot:
         raise ValueError("should be unreachable")
 
     def _compute_base_speed_for_voltage(self, voltage):
-        return min([24.0, voltage * self._base_speed()])
-
-    def _load_factor(self):
-        return 9.0
-
-    def _base_speed(self):
-        return 12.0
+        return min([24.0, voltage * self.BASE_SPEED])
+ 
