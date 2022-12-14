@@ -1,5 +1,12 @@
+import pytest
+
 from parrot import parrot_factory, ParrotType
 
+
+def test_factoryThrows():
+    with pytest.raises(ValueError):
+        parrot_factory("bababouei", 0, 0, False)
+    
 
 def test_speedOfEuropeanParrot():
     parrot = parrot_factory(ParrotType.EUROPEAN, 0, 0, False)
