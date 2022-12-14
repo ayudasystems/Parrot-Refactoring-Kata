@@ -36,11 +36,11 @@ TEST(ParrotTest, SpeedNorwegianBlueParrot_nailed) {
 }
 
 TEST(ParrotTest, SpeedNorwegianBlueParrot_not_nailed) {
-    std::unique_ptr<Parrot> parrot(new Parrot(NORWEGIAN_BLUE, 0, 1.5, false));
+    std::unique_ptr<Parrot> parrot(parrot_factory(NORWEGIAN_BLUE, 0, 1.5, false));
     EXPECT_NEAR(18.0, parrot->getSpeed(), 0.0);
 }
 
 TEST(ParrotTest, SpeedNorwegianBlueParrot_not_nailed_high_voltage) {
-    std::unique_ptr<Parrot> parrot(new Parrot(NORWEGIAN_BLUE, 0, 4, false));
+    std::unique_ptr<Parrot> parrot(parrot_factory(NORWEGIAN_BLUE, 0, 4, false));
     EXPECT_NEAR(24.0, parrot->getSpeed(), 0.0);
 }

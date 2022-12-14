@@ -5,15 +5,11 @@
 
 using namespace std;
 
-Parrot::Parrot(ParrotType parrotType, int numberOfCoconuts, double voltage, bool isNailed)
-: parrotType(parrotType), numberOfCoconuts(numberOfCoconuts), voltage(voltage), isNailed(isNailed) {}
+Parrot::Parrot(ParrotType parrotType, double voltage, bool isNailed)
+: parrotType(parrotType), voltage(voltage), isNailed(isNailed) {}
 
 double Parrot::getSpeed() {
     switch (parrotType) {
-        case EUROPEAN:
-            return getBaseSpeed();
-        case AFRICAN:
-            return max(0.0, getBaseSpeed() - getLoadFactor() * numberOfCoconuts);
         case NORWEGIAN_BLUE:
             return (isNailed) ? 0 : getBaseSpeed(voltage);
         default:
@@ -36,4 +32,10 @@ double Parrot::getBaseSpeed(double current_voltage) {
 double EuropeanParrot::getSpeed()
 {
     return getBaseSpeed();
+}
+
+double AfricanParrot::getSpeed()
+{
+    double loadFactor = 9.0;
+    return std::max(0.0, Parrot::getBaseSpeed() - loadFactor * numberOfCoconuts);
 }
