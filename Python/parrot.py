@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+from abc import ABC
 from enum import Enum  # Enum is introduced in Python 3.4.
 
 
@@ -7,7 +10,20 @@ class ParrotType(Enum):  # If it is not available, just remove it.
     NORWEGIAN_BLUE = 3
 
 
-class Parrot:
+def parrot_factory(type_of_parrot, number_of_coconuts, voltage, nailed):
+    if type_of_parrot == ParrotType.EUROPEAN:
+        return EuropeanParrot(type_of_parrot, number_of_coconuts, voltage, nailed)
+
+    elif type_of_parrot == ParrotType.AFRICAN:
+        return AfricanParrot(type_of_parrot, number_of_coconuts, voltage, nailed)
+
+    elif type_of_parrot == ParrotType.NORWEGIAN_BLUE:
+        return NBParrot(type_of_parrot, number_of_coconuts, voltage, nailed)
+
+    raise ValueError(f"Invalid Parrot: {type_of_parrot}")
+
+
+class AbstractParrot(ABC):
 
     def __init__(self, type_of_parrot, number_of_coconuts, voltage, nailed):
         self._type = type_of_parrot
@@ -36,3 +52,15 @@ class Parrot:
 
     def _base_speed(self):
         return 12.0
+
+
+class EuropeanParrot(AbstractParrot):
+    pass
+
+
+class AfricanParrot(AbstractParrot):
+    pass
+
+
+class NBParrot(AbstractParrot):
+    pass
