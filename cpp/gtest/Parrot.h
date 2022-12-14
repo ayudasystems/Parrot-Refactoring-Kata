@@ -3,11 +3,11 @@
 
 #include <memory>
 
-enum ParrotType { EUROPEAN, AFRICAN, NORWEGIAN_BLUE};
+enum ParrotType { DEBUG_MIN, EUROPEAN, AFRICAN, NORWEGIAN_BLUE};
 
 class Parrot {
 public:
-    Parrot(ParrotType parrotType, int numberOfCoconuts, double voltage, bool isNailed);
+    Parrot(ParrotType parrotType, double voltage, bool isNailed);
 
     virtual double getSpeed();
 
@@ -17,16 +17,15 @@ protected:
     double getBaseSpeed();
 
 private:
-    ParrotType parrotType;
-    int numberOfCoconuts;
-    double voltage;
-    bool isNailed;
+    ParrotType parrotType = DEBUG_MIN;
+    double voltage = 0.0;
+    bool isNailed = false;
 };
 
 class EuropeanParrot: public Parrot {
 public:
-    EuropeanParrot(int numberOfCoconuts, double voltage, bool isNailed)
-        : Parrot(EUROPEAN, numberOfCoconuts, voltage, isNailed)
+    EuropeanParrot(double voltage, bool isNailed)
+        : Parrot(EUROPEAN, voltage, isNailed)
     {
     }
 
@@ -36,20 +35,21 @@ public:
 class AfricanParrot: public Parrot {
 public:
     AfricanParrot(int numberOfCoconuts, double voltage, bool isNailed)
-        : Parrot(AFRICAN, numberOfCoconuts, voltage, isNailed)
+        : Parrot(AFRICAN, voltage, isNailed), numberOfCoconuts(numberOfCoconuts)
     {
     }
+    double getSpeed() override;
 
-    // virtual double getSpeed();
+private:
+    int numberOfCoconuts = 0u;
 };
 
 class NorwegianParrot: public Parrot {
 public:
-    NorwegianParrot(int numberOfCoconuts, double voltage, bool isNailed)
-        : Parrot(NORWEGIAN_BLUE, numberOfCoconuts, voltage, isNailed)
+    NorwegianParrot(double voltage, bool isNailed)
+        : Parrot(NORWEGIAN_BLUE, voltage, isNailed)
     {
     }
-
     // virtual double getSpeed();
 };
 
@@ -58,11 +58,11 @@ std::unique_ptr<Parrot> parrot_factory(ParrotType parrotType, int numberOfCoconu
 {
     switch (parrotType) {
     case EUROPEAN:
-        return std::unique_ptr<Parrot>(new EuropeanParrot(numberOfCoconuts, voltage, isNailed));
+        return std::unique_ptr<Parrot>(new EuropeanParrot(voltage, isNailed));
     case AFRICAN:
         return std::unique_ptr<Parrot>(new AfricanParrot(numberOfCoconuts, voltage, isNailed));
     case NORWEGIAN_BLUE:
-        return std::unique_ptr<Parrot>(new NorwegianParrot(numberOfCoconuts, voltage, isNailed));
+        return std::unique_ptr<Parrot>(new NorwegianParrot(voltage, isNailed));
     };
 
     return {};
