@@ -3,42 +3,41 @@
 
 #include <memory>
 
-enum ParrotType { DEBUG_MIN, EUROPEAN, AFRICAN, NORWEGIAN_BLUE};
+enum ParrotType { DEBUG_MIN, EUROPEAN, AFRICAN, NORWEGIAN_BLUE };
 
 class Parrot {
 public:
-    Parrot(ParrotType parrotType, double voltage, bool isNailed);
+    Parrot(ParrotType parrotType);
 
-    virtual double getSpeed();
+    virtual double getSpeed() const = 0;
 
 protected:
-    double getBaseSpeed(double voltage);
-    double getLoadFactor();
-    double getBaseSpeed();
+    double getBaseSpeed() const;
 
-private:
+protected:
     ParrotType parrotType = DEBUG_MIN;
-    double voltage = 0.0;
-    bool isNailed = false;
 };
 
 class EuropeanParrot: public Parrot {
 public:
-    EuropeanParrot(double voltage, bool isNailed)
-        : Parrot(EUROPEAN, voltage, isNailed)
+    EuropeanParrot()
+        : Parrot(EUROPEAN)
     {
     }
 
-    virtual double getSpeed();
+    double getSpeed() const override;
 };
 
 class AfricanParrot: public Parrot {
 public:
-    AfricanParrot(int numberOfCoconuts, double voltage, bool isNailed)
-        : Parrot(AFRICAN, voltage, isNailed), numberOfCoconuts(numberOfCoconuts)
+    static constexpr double LOAD_FACTOR = 9.0;
+
+public:
+    AfricanParrot(int numberOfCoconuts)
+        : Parrot(AFRICAN), numberOfCoconuts(numberOfCoconuts)
     {
     }
-    double getSpeed() override;
+    double getSpeed() const override;
 
 private:
     int numberOfCoconuts = 0u;
@@ -47,10 +46,18 @@ private:
 class NorwegianParrot: public Parrot {
 public:
     NorwegianParrot(double voltage, bool isNailed)
-        : Parrot(NORWEGIAN_BLUE, voltage, isNailed)
+        : Parrot(NORWEGIAN_BLUE)
+        , voltage(voltage)
+        , isNailed(isNailed)
     {
     }
-    // virtual double getSpeed();
+
+    double getSpeed() const override;
+    double getBaseSpeed(double voltage) const;
+
+private:
+    double voltage = 0.0;
+    bool isNailed = false;
 };
 
 inline
@@ -58,9 +65,9 @@ std::unique_ptr<Parrot> parrot_factory(ParrotType parrotType, int numberOfCoconu
 {
     switch (parrotType) {
     case EUROPEAN:
-        return std::unique_ptr<Parrot>(new EuropeanParrot(voltage, isNailed));
+        return std::unique_ptr<Parrot>(new EuropeanParrot());
     case AFRICAN:
-        return std::unique_ptr<Parrot>(new AfricanParrot(numberOfCoconuts, voltage, isNailed));
+        return std::unique_ptr<Parrot>(new AfricanParrot(numberOfCoconuts));
     case NORWEGIAN_BLUE:
         return std::unique_ptr<Parrot>(new NorwegianParrot(voltage, isNailed));
     };
