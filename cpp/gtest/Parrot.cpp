@@ -5,8 +5,11 @@
 
 using namespace std;
 
-Parrot::Parrot(ParrotType parrotType)
-    : parrotType(parrotType)
+namespace {
+    constexpr double LOAD_FACTOR = 9.0;
+}
+
+Parrot::Parrot()
 {
 }
 
