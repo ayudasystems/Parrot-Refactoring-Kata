@@ -6,6 +6,7 @@ enum ParrotType { EUROPEAN, AFRICAN, NORWEGIAN_BLUE};
 class Parrot {
 public:
     Parrot(ParrotType parrotType, int numberOfCoconuts, double voltage, bool isNailed);
+    virtual ~Parrot() {}
 
     double getSpeed();
 private:
@@ -19,9 +20,15 @@ private:
     double getBaseSpeed();
 };
 
+class EuropeanParrot : public Parrot {
+public:
+    EuropeanParrot() : Parrot(EUROPEAN, 0, 0, false) {}
+    ~EuropeanParrot() override {}
+};
+
 inline Parrot *european_parrot_factory()
 {
-    return new Parrot(EUROPEAN, 0, 0, false);
+    return new EuropeanParrot();
 }
 
 inline Parrot *african_parrot_factory(int numberOfCoconuts)
