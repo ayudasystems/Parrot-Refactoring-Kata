@@ -10,9 +10,6 @@ double Parrot::getBaseSpeed() {
 }
 
 
-double Parrot::getBaseSpeed(double current_voltage) {
-	return min(24.0, current_voltage * getBaseSpeed());
-}
 double EuropeanParrot::getSpeed()
 {
 	return getBaseSpeed();
@@ -30,4 +27,8 @@ double AfricanParrot::getLoadFactor() {
 double NorwegianParrot::getSpeed()
 {
 	return (isNailed) ? 0 : getBaseSpeed(voltage);
+}
+
+double NorwegianParrot::getBaseSpeed(double current_voltage) {
+	return min(24.0, current_voltage * Parrot::getBaseSpeed());
 }

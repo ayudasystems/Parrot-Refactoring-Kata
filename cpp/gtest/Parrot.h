@@ -9,8 +9,6 @@ public:
 
 protected:
 	double getBaseSpeed();
-	double getBaseSpeed(double voltage);
-	
 };
 
 class EuropeanParrot : public Parrot {
@@ -49,23 +47,11 @@ public:
 	double getSpeed();
 
 private:
+    double getBaseSpeed(double voltage);
+
+private:
 	double voltage;
 	bool isNailed;
 };
-
-inline Parrot *european_parrot_factory()
-{
-	return new EuropeanParrot();
-}
-
-inline Parrot *african_parrot_factory(int numberOfCoconuts)
-{
-	return new AfricanParrot(numberOfCoconuts);
-}
-
-inline Parrot *norwegian_blue_parrot_factory(double voltage, bool isNailed)
-{
-	return new NorwegianParrot(voltage, isNailed);
-}
 
 #endif //PARROT_PARROT_H
