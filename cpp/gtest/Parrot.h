@@ -1,33 +1,21 @@
 #ifndef PARROT_PARROT_H
 #define PARROT_PARROT_H
 
-enum ParrotType { EUROPEAN, AFRICAN, NORWEGIAN_BLUE};
-
 class Parrot {
 public:
-	Parrot(ParrotType parrotType, int numberOfCoconuts, double voltage, bool isNailed);
-	virtual ~Parrot() {}
+	virtual ~Parrot() = default;
 
-	virtual double getSpeed();
+	virtual double getSpeed() = 0;
 
 protected:
-	int numberOfCoconuts;
-	double voltage;
-	bool isNailed;
-
 	double getBaseSpeed();
 	double getBaseSpeed(double voltage);
-	double getLoadFactor();
-
-private:
-	ParrotType parrotType;
+	
 };
 
 class EuropeanParrot : public Parrot {
 public:
-	EuropeanParrot()
-		: Parrot(EUROPEAN, 0, 0, false)
-	{}
+	EuropeanParrot() = default;
 
 	// Parrot interface
 public:
@@ -37,23 +25,32 @@ public:
 class AfricanParrot : public Parrot {
 public:
 	AfricanParrot(int numberOfCoconuts)
-		: Parrot(AFRICAN, numberOfCoconuts, 0, false)
+		: numberOfCoconuts(numberOfCoconuts)
 	{}
 
 	// Parrot interface
 public:
 	double getSpeed();
+
+private:
+	double getLoadFactor();
+	int numberOfCoconuts;
 };
 
 class NorwegianParrot : public Parrot {
 public:
 	NorwegianParrot(double voltage, bool isNailed)
-		: Parrot(NORWEGIAN_BLUE, 0, voltage, isNailed)
+		: voltage(voltage)
+		, isNailed(isNailed)
 	{}
 
 	// Parrot interface
 public:
 	double getSpeed();
+
+private:
+	double voltage;
+	bool isNailed;
 };
 
 inline Parrot *european_parrot_factory()
